@@ -12,8 +12,18 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->modul_ini = 15;
 	}
 
+<<<<<<< HEAD
 	// Peraturan Desa
 	public function peraturan_desa($kat=1, $p=1, $o=0)
+=======
+	public function index($kat=2, $p=1, $o=0)
+	{
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
+	}
+
+	// Produk Hukum Desa
+	public function peraturan_desa($kat=2, $p=1, $o=0)
+>>>>>>> upstream/master
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -37,10 +47,18 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
+<<<<<<< HEAD
 
 		foreach ($data['submenu'] as $s) 
 		{
 			if ($kat == $s['id']) 
+=======
+    $_SESSION['menu_kategori'] = TRUE;
+
+		foreach ($data['submenu'] as $s)
+		{
+			if ($kat == $s['id'])
+>>>>>>> upstream/master
 			{
 				$_SESSION['submenu'] = $s['id'];
 				$_SESSION['sub_kategori'] = $s['kategori'];
@@ -51,12 +69,17 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
+<<<<<<< HEAD
+=======
+    $header['minsidebar'] = 1;
+>>>>>>> upstream/master
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
 
+<<<<<<< HEAD
 	public function clear($kat=1)
 	{
 		unset($_SESSION['cari']);
@@ -65,6 +88,16 @@ class Dokumen_sekretariat extends Admin_Controller {
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
+=======
+	public function clear($kat=2)
+	{
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		redirect("dokumen_sekretariat/peraturan_desa/$kat");
+	}
+
+	public function form($kat=2, $p=1, $o=0, $id='')
+>>>>>>> upstream/master
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -138,7 +171,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete_all($kat=1, $p=1, $o=0)
@@ -146,19 +179,19 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function dokumen_lock($kat=1, $id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dokumen_unlock($kat=1,$id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dialog_cetak($kat=1)

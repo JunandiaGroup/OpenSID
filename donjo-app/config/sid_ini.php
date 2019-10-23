@@ -29,7 +29,7 @@ $config["useDatabaseConfig"] = true;
 
 // Untuk situs yang digunakan untuk demo, seperti http://sid.bangundesa.info,
 // buat setting berikut menjadi 'y'
-$config['demo'] = '';
+$config['demo'] = 'y';
 
 $config['defaultAdminAuthInfo'] = array(
     'username' => 'admin',
