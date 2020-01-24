@@ -54,6 +54,7 @@
 >>>>>>> upstream/master
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/bootstrap.min.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 
 		<!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">

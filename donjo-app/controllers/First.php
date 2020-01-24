@@ -5,6 +5,7 @@ class First extends Web_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		parent::clear_cluster_session();
 		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
@@ -72,6 +73,7 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
+		$this->load->model('keuangan_grafik_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -81,11 +83,10 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-
-
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0, $data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
+		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
@@ -96,7 +97,6 @@ class First extends Web_Controller {
 
 		$this->_get_common_data($data);
 		$this->track_model->track_desa('first');
-
 		$this->load->view($this->template, $data);
 	}
 
@@ -283,7 +283,6 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
-		parent::clear_cluster_session();
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
@@ -427,12 +426,10 @@ class First extends Web_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = "<a href='".base_url('desa/upload/dokumen/').$baris['satuan']."' target='_blank'>".$baris['nama']."</a>";
+			$row[] = "<a href='".site_url('dokumen_web/unduh_berkas/').$baris['id']."' target='_blank'>".$baris['nama']."</a>";
 			$row[] = $baris['tahun'];
 			// Ambil judul kategori
-			$kategori_publik = json_decode($baris['attr'], true)['kategori_publik'];
-			$kategori_publik = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$kategori_publik];
-			$row[] = $kategori_publik;
+			$row[] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
 			$row[] = $baris['tgl_upload'];
 			$data[] = $row;
 		}
